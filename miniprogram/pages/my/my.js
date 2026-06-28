@@ -27,56 +27,19 @@ Page({
     this.setData({
       userInfo: MOCK_USER,
       pets: MOCK_PETS,
-      pointsBalance: 280
+      pointsBalance: 280,
+      orders: MOCK_ORDERS
     });
-    this.loadData();
+    this.filterOrders();
   },
 
   loadData() {
     this.loadOrders();
-
-    // 尝试从后端加载（失败不影响演示数据）
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/pets`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
-          this.setData({ pets: res.data.data });
-        }
-      },
-      fail: () => {}
-    });
-
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/points/balance`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0) {
-          this.setData({ pointsBalance: res.data.data.balance });
-        }
-      },
-      fail: () => {}
-    });
   },
 
   loadOrders() {
     this.setData({ orders: MOCK_ORDERS });
     this.filterOrders();
-
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/orders`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
-          this.setData({ orders: res.data.data });
-          this.filterOrders();
-        }
-      },
-      fail: () => {}
-    });
   },
 
   switchOrderTab(e) {

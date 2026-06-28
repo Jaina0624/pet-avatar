@@ -69,75 +69,32 @@ Page({
   },
 
   onLoad() {
-    this.loadPets();
-    this.checkCheckinStatus();
+    this.setData({ pets: MOCK_PETS });
+    const checked = wx.getStorageSync('todayCheckedIn');
+    this.setData({ todayCheckedIn: !!checked });
   },
 
   onShow() {
-    this.loadPets();
-  },
-
-  // 加载宠物列表（API失败时用Mock数据）
-  async loadPets() {
-    // 如果后端未部署，直接用Mock数据
     this.setData({ pets: MOCK_PETS });
-    
-    // 尝试从后端加载（失败也不影响）
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/pets`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data && res.data.data.length > 0) {
-          this.setData({ pets: res.data.data });
-        }
-      },
-      fail: () => {
-        console.log('后端未部署，使用演示数据');
-      }
-    });
   },
 
-  // 检查今日签到状态
+  // 加载宠物列表（纯演示数据）
+  loadPets() {
+    this.setData({ pets: MOCK_PETS });
+  },
+
+  // 检查今日签到状态（纯本地）
   checkCheckinStatus() {
     const checked = wx.getStorageSync('todayCheckedIn');
     this.setData({ todayCheckedIn: !!checked });
-    
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/points/checkin-status`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0) {
-          this.setData({ todayCheckedIn: res.data.data.checkedIn });
-        }
-      },
-      fail: () => {}
-    });
   },
 
-  // 每日签到（离线模式用本地存储）
+  // 每日签到（纯本地）
   doCheckin() {
     if (this.data.todayCheckedIn) return;
-
     wx.showToast({ title: '签到成功 +10积分！', icon: 'success' });
     this.setData({ todayCheckedIn: true });
     wx.setStorageSync('todayCheckedIn', true);
-
-    // 尝试服务端签到
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/points/checkin`,
-      method: 'POST',
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0) {
-          const { points, streak } = res.data.data;
-          wx.showToast({ title: `签到成功 +${points}积分！连续${streak}天`, icon: 'success' });
-        }
-      },
-      fail: () => {}
-    });
   },
 
   // 页面跳转

@@ -52,41 +52,9 @@ Page({
     }
   },
 
-  // 加载已有宠物信息（API失败时用Mock数据）
+  // 加载已有宠物信息（纯演示）
   loadPetProfile(id) {
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/pets/${id}`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
-          const pet = res.data.data;
-          this.setData({
-            form: {
-              name: pet.name,
-              species: pet.species,
-              breed: pet.breed,
-              gender: pet.gender,
-              age: pet.age,
-              neck: pet.neck_cm,
-              chest: pet.chest_cm,
-              backLength: pet.back_length_cm,
-              waist: pet.waist_cm || ''
-            },
-            photos: {
-              fullBody: pet.photos?.[0] || '',
-              frontFace: pet.photos?.[1] || '',
-              sideFace: pet.photos?.[2] || ''
-            }
-          });
-          this.updateBreedOptions();
-        }
-      },
-      fail: () => {
-        // 后端未部署时加载失败也不影响
-        console.log('后端未部署，无法加载宠物数据');
-      }
-    });
+    console.log('演示模式：编辑宠物档案');
   },
 
   // 选择物种
@@ -194,47 +162,10 @@ Page({
     });
   },
 
-  // 上传到云存储（离线模式用本地临时图片）
+  // 上传到云存储（纯本地预览）
   uploadToCloud(filePath, type) {
-    wx.showLoading({ title: '上传中...' });
-    
-    // 尝试服务端上传
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/upload/sign`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (signRes) => {
-        if (!signRes.data || signRes.data.code !== 0) {
-          wx.hideLoading();
-          // 离线模式：直接使用本地临时路径
-          this.setData({ [`photos.${type}`]: filePath });
-          wx.showToast({ title: '预览模式：本地图片', icon: 'none' });
-          return;
-        }
-        const { uploadUrl, key } = signRes.data.data;
-        
-        wx.uploadFile({
-          url: uploadUrl,
-          filePath,
-          name: 'file',
-          success: (uploadRes) => {
-            if (uploadRes.statusCode === 200) {
-              const photoUrl = `${app.globalData.cosUrl}/${key}`;
-              this.setData({ [`photos.${type}`]: photoUrl });
-            }
-          },
-          complete: () => {
-            wx.hideLoading();
-          }
-        });
-      },
-      fail: () => {
-        wx.hideLoading();
-        // 离线模式：直接使用本地临时路径
-        this.setData({ [`photos.${type}`]: filePath });
-        wx.showToast({ title: '预览模式：本地图片', icon: 'none' });
-      }
-    });
+    this.setData({ [`photos.${type}`]: filePath });
+    wx.showToast({ title: '预览模式：已选图片', icon: 'none' });
   },
 
   // 显示测量教程
@@ -279,68 +210,19 @@ Page({
     });
   },
 
-  // 提交宠物档案（API失败时用本地演示）
+  // 提交宠物档案（纯演示）
   submitProfile() {
     if (!this.data.canSubmit) return;
-
-    const { form, photos, matchedTier } = this.data;
-    const petData = {
-      name: form.name,
-      species: form.species,
-      breed: form.breed,
-      gender: form.gender,
-      age: parseFloat(form.age) || null,
-      neck_cm: parseFloat(form.neck),
-      chest_cm: parseFloat(form.chest),
-      back_length_cm: parseFloat(form.backLength),
-      waist_cm: parseFloat(form.waist) || null,
-      size_tier: matchedTier?.key || 'unknown',
-      photos: [photos.fullBody, photos.frontFace, photos.sideFace].filter(Boolean)
-    };
-
     wx.showLoading({ title: '保存中...' });
-
-    const url = this.data.isEdit
-      ? `${app.globalData.baseUrl}/api/pets/${this.data.petId}`
-      : `${app.globalData.baseUrl}/api/pets`;
-    const method = this.data.isEdit ? 'PUT' : 'POST';
-
-    wx.request({
-      url,
-      method,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      data: petData,
-      timeout: 3000,
-      success: (res) => {
-        wx.hideLoading();
-        if (res.data && res.data.code === 0) {
-          wx.showToast({ title: '保存成功！3D形象正在生成...', icon: 'success' });
-          this.request3DGeneration(res.data.data.id);
-          setTimeout(() => wx.navigateBack(), 1500);
-        } else {
-          wx.showToast({ title: res.data?.msg || '保存失败', icon: 'none' });
-        }
-      },
-      fail: () => {
-        wx.hideLoading();
-        // 离线模式：演示成功
-        wx.showToast({ title: '演示模式：宠物档案已保存 ✓', icon: 'success' });
-        setTimeout(() => wx.navigateBack(), 1500);
-      }
-    });
+    setTimeout(() => {
+      wx.hideLoading();
+      wx.showToast({ title: '演示模式：宠物档案已保存 ✓', icon: 'success' });
+      setTimeout(() => wx.navigateBack(), 1500);
+    }, 800);
   },
 
-  // 请求3D模型生成
+  // 请求3D模型生成（纯演示）
   request3DGeneration(petId) {
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/pets/${petId}/generate-3d`,
-      method: 'POST',
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      success: (res) => {
-        if (res.data.code === 0) {
-          wx.showToast({ title: '3D形象生成中...', icon: 'none' });
-        }
-      }
-    });
+    console.log('演示模式：3D生成请求已记录');
   }
 });

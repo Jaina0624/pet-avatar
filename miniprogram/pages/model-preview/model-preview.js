@@ -61,9 +61,8 @@ Page({
     return 0;
   },
 
-  // 加载最近的宠物（API失败时用演示数据）
+  // 加载最近的宠物（纯演示数据）
   loadLatestPet() {
-    // 先用演示数据展示
     const pet = MOCK_PET;
     this.setData({
       petInfo: {
@@ -75,14 +74,7 @@ Page({
       modelUrl: '',
       loading: false
     });
-
-    // 尝试从后端加载
-    wx.request({
-      url: `${app.globalData.baseUrl}/api/pets/latest`,
-      header: { Authorization: `Bearer ${app.globalData.token}` },
-      timeout: 3000,
-      success: (res) => {
-        if (res.data && res.data.code === 0 && res.data.data) {
+  },
           const pet = res.data.data;
           this.setData({
             petInfo: {
