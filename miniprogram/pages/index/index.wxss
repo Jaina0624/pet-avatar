@@ -158,11 +158,15 @@
   border: 3rpx dashed #E8E8E8;
   border-radius: 16rpx;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
 }
 
 .add-pet-card:active { opacity: 0.7; }
 
-/* 宠物卡片（替代pet-card组件） */
 .pet-card-item {
   width: 200rpx;
   flex-shrink: 0;
@@ -192,20 +196,6 @@
   color: #B2BEC3;
   display: block;
   margin-top: 2rpx;
-}
-
-.add-pet-card {
-  width: 200rpx;
-  height: 240rpx;
-  border: 3rpx dashed #E8E8E8;
-  border-radius: 16rpx;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-  gap: 8rpx;
 }
 
 .add-icon {
