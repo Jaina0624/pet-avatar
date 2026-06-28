@@ -18,9 +18,7 @@
   "renderer": "skyline",
   "rendererOptions": {
     "skyline": {
-      "defaultDisplayBlock": true,
-      "defaultContentBox": true,
-      "disableABTest": true
+      "defaultDisplayBlock": true
     }
   },
   "lazyCodeLoading": "requiredComponents",

@@ -9,8 +9,6 @@ App({
   },
 
   onLaunch() {
-    // 检查登录状态
-    this.checkLoginStatus();
     // 获取系统信息
     this.getSystemInfo();
   },
@@ -20,20 +18,7 @@ App({
     if (token) {
       this.globalData.token = token;
       this.globalData.isLogin = true;
-      this.getUserInfo();
     }
-  },
-
-  getUserInfo() {
-    wx.request({
-      url: `${this.globalData.baseUrl}/api/user/profile`,
-      header: { Authorization: `Bearer ${this.globalData.token}` },
-      success: (res) => {
-        if (res.data.code === 0) {
-          this.globalData.userInfo = res.data.data;
-        }
-      }
-    });
   },
 
   getSystemInfo() {
