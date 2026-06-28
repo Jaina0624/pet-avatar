@@ -193,6 +193,8 @@
   display: block;
   margin-top: 2rpx;
 }
+
+.add-pet-card {
   width: 200rpx;
   height: 240rpx;
   border: 3rpx dashed #E8E8E8;
@@ -202,6 +204,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
   gap: 8rpx;
 }
 

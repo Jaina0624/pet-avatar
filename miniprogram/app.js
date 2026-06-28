@@ -22,19 +22,18 @@ App({
   },
 
   getSystemInfo() {
-    const info = wx.getSystemInfoSync();
+    const winfo = wx.getWindowInfo();
+    const dinfo = wx.getDeviceInfo();
+    const sinfo = wx.getAppBaseInfo();
     this.globalData.systemInfo = {
-      windowWidth: info.windowWidth,
-      windowHeight: info.windowHeight,
-      pixelRatio: info.pixelRatio,
-      platform: info.platform,
-      brand: info.brand,
-      model: info.model,
-      SDKVersion: info.SDKVersion,
-      // 判断是否支持Skyline
-      skylineSupported: info.renderer === 'skyline',
-      // 判断是否支持WebGL
-      webglSupported: info.SDKVersion >= '2.9.0'
+      windowWidth: winfo.windowWidth,
+      windowHeight: winfo.windowHeight,
+      pixelRatio: winfo.pixelRatio,
+      platform: dinfo.platform,
+      brand: dinfo.brand,
+      model: dinfo.model,
+      SDKVersion: sinfo.SDKVersion,
+      webglSupported: sinfo.SDKVersion >= '2.9.0'
     };
   },
 
