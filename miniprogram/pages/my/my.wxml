@@ -1,0 +1,122 @@
+<!-- 我的页面 -->
+<view class="page-container">
+  <!-- 用户信息头部 -->
+  <view class="my-header">
+    <view class="user-info flex-row" wx:if="{{userInfo}}">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view class="user-detail">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-id">ID: {{userInfo.id}}</text>
+      </view>
+    </view>
+    <view class="user-info flex-row" wx:else>
+      <view class="user-avatar-placeholder">🐾</view>
+      <view class="user-detail">
+        <text class="user-name">点击登录</text>
+        <text class="user-id">登录后享受更多服务</text>
+      </view>
+    </view>
+    
+    <!-- 积分卡片 -->
+    <view class="points-card" bindtap="goToPoints">
+      <view class="points-row flex-between">
+        <view class="points-info">
+          <text class="points-num">{{pointsBalance}}</text>
+          <text class="points-label">可用积分</text>
+        </view>
+        <view class="points-action flex-row">
+          <text>积分中心</text>
+          <text class="arrow">></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的宠物 -->
+  <view class="section container" wx:if="{{pets.length > 0}}">
+    <view class="section-header flex-between">
+      <text class="section-title">我的宠物 ({{pets.length}})</text>
+      <text class="section-more" bindtap="goToPetProfile">添加</text>
+    </view>
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="pet-mini-list flex-row">
+        <view class="pet-mini-card" wx:for="{{pets}}" wx:key="id" bindtap="viewPet" data-id="{{item.id}}">
+          <image class="pet-mini-avatar" src="{{item.photos[0]}}" mode="aspectFill" />
+          <text class="pet-mini-name">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 我的订单 -->
+  <view class="section container">
+    <view class="section-header flex-between">
+      <text class="section-title">我的订单</text>
+      <text class="section-more" bindtap="viewAllOrders">全部 ></text>
+    </view>
+    <view class="order-tabs flex-row">
+      <view class="tab-item {{orderTab === 'all' ? 'active' : ''}}" bindtap="switchOrderTab" data-tab="all">全部</view>
+      <view class="tab-item {{orderTab === 'paid' ? 'active' : ''}}" bindtap="switchOrderTab" data-tab="paid">已付款</view>
+      <view class="tab-item {{orderTab === 'producing' ? 'active' : ''}}" bindtap="switchOrderTab" data-tab="producing">制作中</view>
+      <view class="tab-item {{orderTab === 'shipping' ? 'active' : ''}}" bindtap="switchOrderTab" data-tab="shipping">待收货</view>
+    </view>
+    
+    <view wx:if="{{filteredOrders.length === 0}}" class="empty-state">
+      <text class="empty-icon">📦</text>
+      <text>暂无订单</text>
+      <view class="btn-primary mt-24" bindtap="goToCustom">去定制</view>
+    </view>
+    
+    <order-card 
+      wx:for="{{filteredOrders}}" 
+      wx:key="id" 
+      order="{{item}}"
+      bindtap="viewOrder"
+      data-id="{{item.id}}"
+    />
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="section container">
+    <view class="func-list">
+      <view class="func-item flex-between" bindtap="goToPoints">
+        <view class="func-left flex-row">
+          <text class="func-icon">🎁</text>
+          <text class="func-name">积分中心</text>
+        </view>
+        <text class="func-arrow">></text>
+      </view>
+      <view class="func-item flex-between" bindtap="showDownload">
+        <view class="func-left flex-row">
+          <text class="func-icon">💻</text>
+          <text class="func-name">下载桌宠</text>
+        </view>
+        <text class="func-arrow">></text>
+      </view>
+      <view class="func-item flex-between">
+        <view class="func-left flex-row">
+          <text class="func-icon">📏</text>
+          <text class="func-name">测量教程</text>
+        </view>
+        <text class="func-arrow">></text>
+      </view>
+      <view class="func-item flex-between">
+        <view class="func-left flex-row">
+          <text class="func-icon">❓</text>
+          <text class="func-name">常见问题</text>
+        </view>
+        <text class="func-arrow">></text>
+      </view>
+      <view class="func-item flex-between">
+        <view class="func-left flex-row">
+          <text class="func-icon">💬</text>
+          <text class="func-name">联系客服</text>
+        </view>
+        <text class="func-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部安全区 -->
+  <view class="safe-bottom" style="height: 40rpx;"></view>
+</view>

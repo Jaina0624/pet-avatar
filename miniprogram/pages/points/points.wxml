@@ -1,0 +1,92 @@
+<!-- 积分中心页面 -->
+<view class="page-container">
+  <!-- 积分头部 -->
+  <view class="points-header">
+    <view class="points-balance-section">
+      <text class="balance-label">我的积分</text>
+      <view class="balance-row">
+        <text class="balance-num">{{balance}}</text>
+        <text class="balance-unit">分</text>
+      </view>
+      <text class="balance-total">累计获得 {{totalEarned}} 积分</text>
+    </view>
+  </view>
+
+  <!-- 签到区域 -->
+  <view class="checkin-section container">
+    <view class="checkin-card">
+      <view class="checkin-header flex-between">
+        <text class="checkin-title">每日签到</text>
+        <text class="checkin-streak">已连续签到 {{streak}} 天</text>
+      </view>
+      
+      <!-- 签到格子 -->
+      <view class="checkin-grid">
+        <view class="checkin-cell {{item.checked ? 'checked' : ''}} {{item.isToday ? 'today' : ''}}" wx:for="{{weekDays}}" wx:key="day">
+          <text class="checkin-day">{{item.day}}</text>
+          <text class="checkin-points">+{{item.points}}</text>
+          <view class="checkin-dot" wx:if="{{item.checked}}">✓</view>
+          <view class="checkin-dot today-dot" wx:elif="{{item.isToday}}"></view>
+        </view>
+      </view>
+
+      <!-- 签到按钮 -->
+      <view class="btn-checkin {{todayChecked ? 'checked' : ''}}" bindtap="doCheckin">
+        <text wx:if="{{todayChecked}}">今日已签到 ✓</text>
+        <text wx:else>签到领积分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 积分规则 -->
+  <view class="section container">
+    <view class="section-title mb-16">获取积分</view>
+    <view class="rule-list">
+      <view class="rule-item flex-between" wx:for="{{pointRules}}" wx:key="action">
+        <view class="rule-left flex-row">
+          <text class="rule-icon">{{item.icon}}</text>
+          <view>
+            <text class="rule-name">{{item.name}}</text>
+            <text class="rule-desc">{{item.desc}}</text>
+          </view>
+        </view>
+        <text class="rule-points">+{{item.points}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 积分兑换 -->
+  <view class="section container">
+    <view class="section-title mb-16">积分兑换</view>
+    <view class="exchange-grid">
+      <view class="exchange-item" wx:for="{{exchangeItems}}" wx:key="id" bindtap="exchange" data-item="{{item}}">
+        <image class="exchange-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="exchange-info">
+          <text class="exchange-name">{{item.name}}</text>
+          <text class="exchange-points">{{item.points}} 积分</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 积分流水 -->
+  <view class="section container">
+    <view class="section-title mb-16">积分记录</view>
+    <view wx:if="{{transactions.length === 0}}" class="empty-state">
+      <text>暂无积分记录</text>
+    </view>
+    <view class="transaction-list" wx:else>
+      <view class="transaction-item flex-between" wx:for="{{transactions}}" wx:key="id">
+        <view>
+          <text class="tx-desc">{{item.description}}</text>
+          <text class="tx-time">{{item.created_at}}</text>
+        </view>
+        <text class="tx-amount {{item.type === 'earn' ? 'earn' : 'spend'}}">
+          {{item.type === 'earn' ? '+' : '-'}}{{item.amount}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <view class="safe-bottom" style="height: 40rpx;"></view>
+</view>

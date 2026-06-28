@@ -1,0 +1,48 @@
+{
+  "description": "PetAvatar - 宠物3D形象与服装定制小程序",
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloud-functions/",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.7.0",
+  "appid": "wx6f77b408b26437b5",
+  "projectname": "pet-avatar",
+  "condition": {
+    "miniprogram": {
+      "list": []
+    }
+  },
+  "packOptions": {
+    "ignore": [
+      { "type": "file", "value": "*.md" },
+      { "type": "file", "value": ".eslintrc.js" }
+    ]
+  }
+}

@@ -1,0 +1,259 @@
+<!-- 服装定制页面 -->
+<view class="page-container">
+  <!-- 头部 -->
+  <view class="custom-header">
+    <text class="custom-title">定制专属服装</text>
+    <text class="custom-desc">基于爱宠真实体型，打造完美合身的衣服</text>
+  </view>
+
+  <!-- 步骤导航 -->
+  <view class="custom-steps container">
+    <view class="custom-step {{customStep >= 1 ? 'active' : ''}}" bindtap="goStep" data-step="1">
+      <text class="step-num">1</text>
+      <text class="step-text">选宠物</text>
+    </view>
+    <view class="step-arrow">></view>
+    <view class="custom-step {{customStep >= 2 ? 'active' : ''}}" bindtap="goStep" data-step="2">
+      <text class="step-num">2</text>
+      <text class="step-text">选款式</text>
+    </view>
+    <view class="step-arrow">></view>
+    <view class="custom-step {{customStep >= 3 ? 'active' : ''}}" bindtap="goStep" data-step="3">
+      <text class="step-num">3</text>
+      <text class="step-text">选布料</text>
+    </view>
+    <view class="step-arrow">></view>
+    <view class="custom-step {{customStep >= 4 ? 'active' : ''}}" bindtap="goStep" data-step="4">
+      <text class="step-num">4</text>
+      <text class="step-text">选细节</text>
+    </view>
+    <view class="step-arrow">></view>
+    <view class="custom-step {{customStep >= 5 ? 'active' : ''}}" bindtap="goStep" data-step="5">
+      <text class="step-num">5</text>
+      <text class="step-text">确认</text>
+    </view>
+  </view>
+
+  <!-- 步骤1：选择宠物 -->
+  <view class="step-panel container" wx:if="{{customStep === 1}}">
+    <view class="section-title mb-16">选择需要定制的宠物</view>
+    <view wx:if="{{pets.length === 0}}" class="empty-state">
+      <text class="empty-icon">🐾</text>
+      <text>还没有宠物档案</text>
+      <view class="btn-primary mt-24" bindtap="goToPetProfile">创建宠物档案</view>
+    </view>
+    <view wx:else>
+      <view 
+        class="pet-select-card {{selectedPet && selectedPet.id === item.id ? 'selected' : ''}}" 
+        wx:for="{{pets}}" 
+        wx:key="id"
+        bindtap="selectPet"
+        data-pet="{{item}}"
+      >
+        <image class="pet-select-avatar" src="{{item.photos[0]}}" mode="aspectFill" />
+        <view class="pet-select-info">
+          <text class="pet-select-name">{{item.name}}</text>
+          <text class="pet-select-breed">{{item.breed}}</text>
+          <view class="pet-select-sizes">
+            <text class="size-item">颈{{item.neck_cm}}cm</text>
+            <text class="size-item">胸{{item.chest_cm}}cm</text>
+            <text class="size-item">背{{item.back_length_cm}}cm</text>
+          </view>
+        </view>
+        <view class="pet-select-check" wx:if="{{selectedPet && selectedPet.id === item.id}}">✓</view>
+      </view>
+      <view class="btn-primary mt-24" bindtap="nextStep" wx:if="{{selectedPet}}">下一步：选择款式</view>
+    </view>
+  </view>
+
+  <!-- 步骤2：选择款式 -->
+  <view class="step-panel container" wx:if="{{customStep === 2}}">
+    <view class="section-title mb-16">选择服装款式</view>
+    <view class="style-select-grid">
+      <view 
+        class="style-select-card {{selectedStyle && selectedStyle.id === item.id ? 'selected' : ''}}"
+        wx:for="{{styles}}"
+        wx:key="id"
+        bindtap="selectStyle"
+        data-style="{{item}}"
+      >
+        <image class="style-select-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="style-select-info">
+          <text class="style-select-name">{{item.name}}</text>
+          <text class="style-select-price">¥{{item.basePrice}}起</text>
+        </view>
+        <text class="style-select-desc">{{item.description}}</text>
+        <view class="style-select-check" wx:if="{{selectedStyle && selectedStyle.id === item.id}}">✓</view>
+      </view>
+    </view>
+    <view class="btn-group mt-24">
+      <view class="btn-outline" bindtap="prevStep">上一步</view>
+      <view class="btn-primary flex-1 {{selectedStyle ? '' : 'btn-disabled'}}" bindtap="nextStep">下一步：选择布料</view>
+    </view>
+  </view>
+
+  <!-- 步骤3：选择布料 -->
+  <view class="step-panel container" wx:if="{{customStep === 3}}">
+    <view class="section-title mb-16">选择布料图案</view>
+    <!-- 3D预览窗口 -->
+    <view class="fabric-preview" wx:if="{{selectedStyle}}">
+      <view class="preview-3d">
+        <!-- 3D模型预览 + 纹理映射 -->
+        <canvas type="webgl" id="fabric-canvas" class="fabric-canvas"></canvas>
+      </view>
+    </view>
+    <!-- 布料分类 -->
+    <view class="fabric-categories">
+      <scroll-view class="cat-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+        <view class="cat-inner">
+          <view 
+            class="cat-item {{fabricCategory === item.key ? 'active' : ''}}"
+            wx:for="{{fabricCategories}}"
+            wx:key="key"
+            bindtap="switchFabricCategory"
+            data-key="{{item.key}}"
+          >
+            {{item.label}}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="fabric-grid">
+      <view 
+        class="fabric-item {{selectedFabric && selectedFabric.id === item.id ? 'selected' : ''}}"
+        wx:for="{{filteredFabrics}}"
+        wx:key="id"
+        bindtap="selectFabric"
+        data-fabric="{{item}}"
+      >
+        <image class="fabric-thumb" src="{{item.thumb}}" mode="aspectFill" />
+        <text class="fabric-name">{{item.name}}</text>
+        <text class="fabric-price" wx:if="{{item.surcharge > 0}}">+¥{{item.surcharge}}</text>
+        <text class="fabric-price free" wx:else>默认</text>
+      </view>
+    </view>
+    <view class="btn-group mt-24">
+      <view class="btn-outline" bindtap="prevStep">上一步</view>
+      <view class="btn-primary flex-1" bindtap="nextStep">下一步：定制细节</view>
+    </view>
+  </view>
+
+  <!-- 步骤4：定制细节 -->
+  <view class="step-panel container" wx:if="{{customStep === 4}}">
+    <view class="section-title mb-16">定制细节选项</view>
+    
+    <!-- 衣领款式 -->
+    <option-selector 
+      title="衣领款式"
+      options="{{collarOptions}}"
+      selected="{{selectedOptions.collar}}"
+      bindchange="onOptionChange"
+      data-category="collar"
+    />
+    
+    <!-- 花边 -->
+    <option-selector 
+      title="花边装饰"
+      options="{{laceOptions}}"
+      selected="{{selectedOptions.lace}}"
+      bindchange="onOptionChange"
+      data-category="lace"
+    />
+    
+    <!-- 袖口 -->
+    <option-selector 
+      title="袖口款式"
+      options="{{cuffOptions}}"
+      selected="{{selectedOptions.cuff}}"
+      bindchange="onOptionChange"
+      data-category="cuff"
+    />
+    
+    <!-- 拉链卡扣 -->
+    <option-selector 
+      title="拉链/卡扣"
+      options="{{zipperOptions}}"
+      selected="{{selectedOptions.zipper}}"
+      bindchange="onOptionChange"
+      data-category="zipper"
+    />
+    
+    <!-- 装饰 -->
+    <option-selector 
+      title="个性装饰"
+      options="{{decorationOptions}}"
+      selected="{{selectedOptions.decoration}}"
+      bindchange="onOptionChange"
+      data-category="decoration"
+    />
+
+    <view class="btn-group mt-24">
+      <view class="btn-outline" bindtap="prevStep">上一步</view>
+      <view class="btn-primary flex-1" bindtap="nextStep">预览确认</view>
+    </view>
+  </view>
+
+  <!-- 步骤5：确认下单 -->
+  <view class="step-panel container" wx:if="{{customStep === 5}}">
+    <view class="section-title mb-16">确认订单</view>
+    
+    <!-- 订单摘要 -->
+    <view class="order-summary card">
+      <view class="summary-row">
+        <text class="summary-label">宠物</text>
+        <text class="summary-value">{{selectedPet.name}} ({{selectedPet.breed}})</text>
+      </view>
+      <view class="summary-row">
+        <text class="summary-label">体型档位</text>
+        <text class="summary-value tag tag-primary">{{selectedPet.size_tier}}</text>
+      </view>
+      <view class="summary-row">
+        <text class="summary-label">款式</text>
+        <text class="summary-value">{{selectedStyle.name}}</text>
+      </view>
+      <view class="summary-row">
+        <text class="summary-label">布料</text>
+        <view class="flex-row">
+          <image class="summary-fabric" src="{{selectedFabric.thumb}}" mode="aspectFill" />
+          <text>{{selectedFabric.name}}</text>
+        </view>
+      </view>
+      <view class="summary-row" wx:for="{{selectedOptionsList}}" wx:key="category">
+        <text class="summary-label">{{item.label}}</text>
+        <text class="summary-value">{{item.name}} {{item.surcharge > 0 ? '+¥' + item.surcharge : ''}}</text>
+      </view>
+    </view>
+
+    <!-- 价格明细 -->
+    <price-calculator 
+      basePrice="{{selectedStyle.basePrice}}"
+      sizeSurcharge="{{sizeSurcharge}}"
+      options="{{selectedOptions}}"
+      bindtotalchange="onTotalChange"
+    />
+
+    <!-- 备注 -->
+    <view class="card mt-24">
+      <text class="card-title">备注（选填）</text>
+      <textarea 
+        class="remark-input" 
+        placeholder="特殊要求、注意事项等..."
+        value="{{remark}}"
+        bindinput="onRemarkInput"
+        maxlength="200"
+      />
+    </view>
+
+    <!-- 提交 -->
+    <view class="submit-section mt-32">
+      <view class="total-bar flex-between">
+        <text class="total-label">合计</text>
+        <view class="total-price-row">
+          <text class="total-symbol">¥</text>
+          <text class="total-price">{{totalPrice}}</text>
+        </view>
+      </view>
+      <view class="btn-primary btn-submit" bindtap="submitOrder">提交订单</view>
+    </view>
+  </view>
+</view>

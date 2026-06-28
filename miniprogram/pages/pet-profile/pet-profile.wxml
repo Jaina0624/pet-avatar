@@ -1,0 +1,190 @@
+<!-- 宠物档案页面 -->
+<view class="page-container">
+  <!-- 头部 -->
+  <view class="profile-header">
+    <text class="profile-title">{{isEdit ? '编辑宠物档案' : '添加宠物档案'}}</text>
+    <text class="profile-desc">录入爱宠信息，开启专属定制之旅</text>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="steps container">
+    <view class="step {{currentStep >= 1 ? 'active' : ''}}">
+      <view class="step-circle">1</view>
+      <text class="step-label">基本信息</text>
+    </view>
+    <view class="step-line {{currentStep >= 2 ? 'active' : ''}}"></view>
+    <view class="step {{currentStep >= 2 ? 'active' : ''}}">
+      <view class="step-circle">2</view>
+      <text class="step-label">上传照片</text>
+    </view>
+    <view class="step-line {{currentStep >= 3 ? 'active' : ''}}"></view>
+    <view class="step {{currentStep >= 3 ? 'active' : ''}}">
+      <view class="step-circle">3</view>
+      <text class="step-label">身体尺寸</text>
+    </view>
+  </view>
+
+  <!-- 步骤1：基本信息 -->
+  <view class="step-content container" wx:if="{{currentStep === 1}}">
+    <view class="card">
+      <view class="form-group">
+        <text class="form-label required">宠物名称</text>
+        <input class="form-input" placeholder="给宝贝取个名字" value="{{form.name}}" bindinput="onInputChange" data-field="name" />
+      </view>
+      <view class="form-group">
+        <text class="form-label required">物种</text>
+        <view class="option-row">
+          <view class="option-item {{form.species === 'cat' ? 'selected' : ''}}" bindtap="selectSpecies" data-species="cat">
+            <text class="option-emoji">🐱</text>
+            <text class="option-text">猫咪</text>
+          </view>
+          <view class="option-item {{form.species === 'dog' ? 'selected' : ''}}" bindtap="selectSpecies" data-species="dog">
+            <text class="option-emoji">🐶</text>
+            <text class="option-text">狗狗</text>
+          </view>
+        </view>
+      </view>
+      <view class="form-group">
+        <text class="form-label required">品种</text>
+        <picker mode="selector" range="{{breedOptions}}" value="{{breedIndex}}" bindchange="onBreedChange">
+          <view class="picker-input">
+            <text class="{{form.breed ? '' : 'placeholder'}}">{{form.breed || '请选择品种'}}</text>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <text class="form-label">性别</text>
+        <view class="option-row">
+          <view class="option-item {{form.gender === 'male' ? 'selected' : ''}}" bindtap="selectGender" data-gender="male">
+            <text>♂ 公</text>
+          </view>
+          <view class="option-item {{form.gender === 'female' ? 'selected' : ''}}" bindtap="selectGender" data-gender="female">
+            <text>♀ 母</text>
+          </view>
+        </view>
+      </view>
+      <view class="form-group">
+        <text class="form-label">年龄</text>
+        <input class="form-input" type="number" placeholder="例如：2.5 岁" value="{{form.age}}" bindinput="onInputChange" data-field="age" />
+      </view>
+    </view>
+    <view class="btn-primary mt-24" bindtap="nextStep">下一步：上传照片</view>
+  </view>
+
+  <!-- 步骤2：上传照片 -->
+  <view class="step-content container" wx:if="{{currentStep === 2}}">
+    <view class="card">
+      <text class="card-title">上传宠物照片</text>
+      <text class="card-desc">请上传清晰照片，用于生成3D数字形象</text>
+      
+      <view class="photo-grid">
+        <!-- 全身照 -->
+        <view class="photo-item">
+          <image 
+            wx:if="{{photos.fullBody}}" 
+            class="photo-preview" 
+            src="{{photos.fullBody}}" 
+            mode="aspectFill" 
+          />
+          <view wx:else class="photo-placeholder" bindtap="uploadPhoto" data-type="fullBody">
+            <text class="photo-icon">📷</text>
+            <text class="photo-label">全身照</text>
+            <text class="photo-hint">正面站立照</text>
+          </view>
+          <view wx:if="{{photos.fullBody}}" class="photo-actions">
+            <text class="photo-tag">全身照</text>
+            <text class="photo-retake" bindtap="uploadPhoto" data-type="fullBody">重拍</text>
+          </view>
+        </view>
+        
+        <!-- 正脸照 -->
+        <view class="photo-item">
+          <image 
+            wx:if="{{photos.frontFace}}" 
+            class="photo-preview" 
+            src="{{photos.frontFace}}" 
+            mode="aspectFill" 
+          />
+          <view wx:else class="photo-placeholder" bindtap="uploadPhoto" data-type="frontFace">
+            <text class="photo-icon">🐱</text>
+            <text class="photo-label">正脸照</text>
+            <text class="photo-hint">清晰五官</text>
+          </view>
+          <view wx:if="{{photos.frontFace}}" class="photo-actions">
+            <text class="photo-tag">正脸照</text>
+            <text class="photo-retake" bindtap="uploadPhoto" data-type="frontFace">重拍</text>
+          </view>
+        </view>
+        
+        <!-- 侧脸照 -->
+        <view class="photo-item">
+          <image 
+            wx:if="{{photos.sideFace}}" 
+            class="photo-preview" 
+            src="{{photos.sideFace}}" 
+            mode="aspectFill" 
+          />
+          <view wx:else class="photo-placeholder" bindtap="uploadPhoto" data-type="sideFace">
+            <text class="photo-icon">🐶</text>
+            <text class="photo-label">侧脸照</text>
+            <text class="photo-hint">侧面轮廓</text>
+          </view>
+          <view wx:if="{{photos.sideFace}}" class="photo-actions">
+            <text class="photo-tag">侧脸照</text>
+            <text class="photo-retake" bindtap="uploadPhoto" data-type="sideFace">重拍</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-group mt-24">
+      <view class="btn-outline" bindtap="prevStep">上一步</view>
+      <view class="btn-primary flex-1" bindtap="nextStep" wx:if="{{photos.fullBody}}">下一步：身体尺寸</view>
+      <view class="btn-disabled flex-1" wx:else>请至少上传全身照</view>
+    </view>
+  </view>
+
+  <!-- 步骤3：身体尺寸 -->
+  <view class="step-content container" wx:if="{{currentStep === 3}}">
+    <view class="card">
+      <text class="card-title">测量身体尺寸</text>
+      <text class="card-desc">请准确测量，这将直接影响衣服合身度</text>
+      
+      <!-- 测量示意图 -->
+      <view class="measure-guide" bindtap="showMeasureGuide">
+        <image class="guide-image" src="/assets/images/measure-guide.png" mode="aspectFit" />
+        <text class="guide-link">查看测量教程</text>
+      </view>
+
+      <view class="form-group">
+        <text class="form-label required">颈围（cm）</text>
+        <input class="form-input" type="digit" placeholder="测量颈部最粗处" value="{{form.neck}}" bindinput="onInputChange" data-field="neck" />
+      </view>
+      <view class="form-group">
+        <text class="form-label required">胸围（cm）</text>
+        <input class="form-input" type="digit" placeholder="测量前腿后方胸部最宽处" value="{{form.chest}}" bindinput="onInputChange" data-field="chest" />
+      </view>
+      <view class="form-group">
+        <text class="form-label required">背长（cm）</text>
+        <input class="form-input" type="digit" placeholder="从肩胛到尾巴根部的长度" value="{{form.backLength}}" bindinput="onInputChange" data-field="backLength" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">腰围（cm）</text>
+        <input class="form-input" type="digit" placeholder="腹部最细处（选填）" value="{{form.waist}}" bindinput="onInputChange" data-field="waist" />
+      </view>
+
+      <!-- 自动体型档位匹配 -->
+      <view class="size-tier-result" wx:if="{{matchedTier}}">
+        <text class="tier-label">系统识别体型：</text>
+        <text class="tier-value">{{matchedTier.label}}</text>
+        <text class="tier-desc">（{{matchedTier.desc}}）</text>
+      </view>
+    </view>
+    <view class="btn-group mt-24">
+      <view class="btn-outline" bindtap="prevStep">上一步</view>
+      <view class="btn-primary flex-1 {{canSubmit ? '' : 'btn-disabled'}}" bindtap="submitProfile">
+        保存宠物档案
+      </view>
+    </view>
+  </view>
+</view>

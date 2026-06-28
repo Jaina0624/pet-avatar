@@ -1,0 +1,20 @@
+<!-- 定制选项选择器组件 -->
+<view class="option-selector">
+  <view class="option-header">
+    <text class="option-title">{{title}}</text>
+  </view>
+  <view class="option-grid">
+    <view 
+      class="option-item {{selected === item.id ? 'active' : ''}}"
+      wx:for="{{options}}"
+      wx:key="id"
+      bindtap="onSelect"
+      data-id="{{item.id}}"
+    >
+      <text class="option-name">{{item.name}}</text>
+      <text class="option-surcharge" wx:if="{{item.surcharge > 0}}">+¥{{item.surcharge}}</text>
+      <text class="option-surcharge free" wx:else>默认</text>
+      <view class="option-check" wx:if="{{selected === item.id}}">✓</view>
+    </view>
+  </view>
+</view>

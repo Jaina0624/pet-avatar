@@ -1,0 +1,269 @@
+/* 积分页面样式 */
+.points-header {
+  background: linear-gradient(135deg, #FFD93D, #FFB300, #FFA000);
+  padding: 60rpx 32rpx 50rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  text-align: center;
+}
+
+.balance-label {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+}
+
+.balance-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-top: 8rpx;
+}
+
+.balance-num {
+  font-size: 80rpx;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.balance-unit {
+  font-size: 32rpx;
+  color: rgba(255,255,255,0.8);
+  margin-left: 8rpx;
+}
+
+.balance-total {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+  margin-top: 8rpx;
+  display: block;
+}
+
+/* 签到卡片 */
+.checkin-section {
+  margin-top: -30rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.checkin-card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.checkin-header {
+  margin-bottom: 24rpx;
+}
+
+.checkin-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.checkin-streak {
+  font-size: 24rpx;
+  color: #FF6B6B;
+}
+
+/* 签到格子 */
+.checkin-grid {
+  display: flex;
+  gap: 8rpx;
+  margin-bottom: 24rpx;
+}
+
+.checkin-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx 4rpx;
+  border-radius: 12rpx;
+  background: #F8F9FA;
+  position: relative;
+}
+
+.checkin-cell.checked {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+}
+
+.checkin-cell.today {
+  border: 2rpx solid #FF6B6B;
+  background: rgba(255, 107, 107, 0.05);
+}
+
+.checkin-day {
+  font-size: 20rpx;
+  color: #B2BEC3;
+}
+
+.checkin-cell.checked .checkin-day {
+  color: rgba(255,255,255,0.8);
+}
+
+.checkin-cell.today .checkin-day {
+  color: #FF6B6B;
+  font-weight: 600;
+}
+
+.checkin-points {
+  font-size: 22rpx;
+  color: #FF6B6B;
+  font-weight: 600;
+  margin-top: 4rpx;
+}
+
+.checkin-cell.checked .checkin-points {
+  color: #FFD93D;
+}
+
+.checkin-dot {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: #6BCB77;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  margin-top: 8rpx;
+}
+
+.today-dot {
+  background: #FF6B6B;
+}
+
+/* 签到按钮 */
+.btn-checkin {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #FFD93D, #FFB300);
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.btn-checkin.checked {
+  background: #E8E8E8;
+  color: #B2BEC3;
+}
+
+/* 规则列表 */
+.rule-list {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.rule-item {
+  padding: 24rpx;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.rule-item:last-child {
+  border-bottom: none;
+}
+
+.rule-icon {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+}
+
+.rule-name {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.rule-desc {
+  font-size: 22rpx;
+  color: #B2BEC3;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.rule-points {
+  font-size: 28rpx;
+  color: #FF6B6B;
+  font-weight: 600;
+}
+
+/* 兑换网格 */
+.exchange-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.exchange-item {
+  width: calc(50% - 8rpx);
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.exchange-image {
+  width: 100%;
+  height: 200rpx;
+  background: #F8F9FA;
+}
+
+.exchange-info {
+  padding: 16rpx;
+}
+
+.exchange-name {
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.exchange-points {
+  font-size: 24rpx;
+  color: #FF6B6B;
+  display: block;
+  margin-top: 4rpx;
+}
+
+/* 流水 */
+.transaction-list {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.transaction-item {
+  padding: 24rpx;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.tx-desc {
+  font-size: 26rpx;
+}
+
+.tx-time {
+  font-size: 22rpx;
+  color: #B2BEC3;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.tx-amount {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.tx-amount.earn {
+  color: #6BCB77;
+}
+
+.tx-amount.spend {
+  color: #FF4757;
+}

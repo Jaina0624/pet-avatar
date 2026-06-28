@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/pet-profile/pet-profile",
+    "pages/model-preview/model-preview",
+    "pages/custom-order/custom-order",
+    "pages/order-detail/order-detail",
+    "pages/my/my",
+    "pages/points/points"
+  ],
+  "window": {
+    "navigationBarTitleText": "PetAvatar 宠物定制",
+    "navigationBarBackgroundColor": "#FF6B6B",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FFF5F5",
+    "backgroundTextStyle": "light"
+  },
+  "renderer": "skyline",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "disableABTest": true
+    }
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6B6B",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/custom-order/custom-order",
+        "text": "定制",
+        "iconPath": "assets/icons/custom.png",
+        "selectedIconPath": "assets/icons/custom-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "assets/icons/my.png",
+        "selectedIconPath": "assets/icons/my-active.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "navbar": "/components/navbar/navbar",
+    "pet-card": "/components/pet-card/pet-card",
+    "3d-viewer": "/components/3d-viewer/3d-viewer",
+    "fabric-picker": "/components/fabric-picker/fabric-picker",
+    "option-selector": "/components/option-selector/option-selector",
+    "price-calculator": "/components/price-calculator/price-calculator",
+    "order-card": "/components/order-card/order-card"
+  },
+  "requiredPrivateInfos": [
+    "chooseAddress",
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于填写收货地址"
+    }
+  }
+}

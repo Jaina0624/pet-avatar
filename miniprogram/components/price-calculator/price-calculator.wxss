@@ -1,0 +1,63 @@
+/* 价格计算器 */
+.price-calculator {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.calc-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2D3436;
+  margin-bottom: 16rpx;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.calc-label {
+  font-size: 26rpx;
+  color: #636E72;
+}
+
+.calc-value {
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.calc-divider {
+  height: 1rpx;
+  background: #E8E8E8;
+  margin: 12rpx 0;
+}
+
+.calc-row.total {
+  padding-top: 16rpx;
+}
+
+.calc-row.total .calc-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2D3436;
+}
+
+.total-price-row {
+  display: flex;
+  align-items: baseline;
+}
+
+.total-symbol {
+  font-size: 28rpx;
+  color: #FF6B6B;
+  font-weight: 600;
+}
+
+.total-value {
+  font-size: 48rpx;
+  color: #FF6B6B;
+  font-weight: 700;
+}

@@ -1,0 +1,19 @@
+<!-- 价格计算器组件 -->
+<view class="price-calculator">
+  <view class="calc-title">价格明细</view>
+  
+  <view class="calc-row" wx:for="{{priceDetails}}" wx:key="label">
+    <text class="calc-label">{{item.label}}</text>
+    <text class="calc-value">¥{{item.price}}</text>
+  </view>
+  
+  <view class="calc-divider"></view>
+  
+  <view class="calc-row total">
+    <text class="calc-label">合计</text>
+    <view class="total-price-row">
+      <text class="total-symbol">¥</text>
+      <text class="total-value">{{total}}</text>
+    </view>
+  </view>
+</view>

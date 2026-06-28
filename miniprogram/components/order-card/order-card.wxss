@@ -1,0 +1,109 @@
+/* 订单卡片 */
+.order-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+.order-header {
+  margin-bottom: 16rpx;
+}
+
+.order-id {
+  font-size: 22rpx;
+  color: #B2BEC3;
+}
+
+.order-status {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.status-pending { background: #FFF3E0; color: #FF9800; }
+.status-paid { background: #E3F2FD; color: #2196F3; }
+.status-producing { background: #FFF8E1; color: #FFA000; }
+.status-shipping { background: #E8F5E9; color: #4CAF50; }
+.status-delivered { background: #E8F5E9; color: #388E3C; }
+.status-cancelled { background: #FFEBEE; color: #F44336; }
+.status-completed { background: #E8F5E9; color: #2E7D32; }
+
+.order-body {
+  gap: 16rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.order-image {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.order-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.order-style {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.order-pet {
+  font-size: 24rpx;
+  color: #636E72;
+}
+
+.order-fabric {
+  font-size: 22rpx;
+  color: #B2BEC3;
+}
+
+.order-footer {
+  padding-top: 16rpx;
+}
+
+.order-price-row {
+  display: flex;
+  align-items: baseline;
+}
+
+.price-symbol {
+  font-size: 22rpx;
+  color: #FF6B6B;
+}
+
+.order-price {
+  font-size: 36rpx;
+  color: #FF6B6B;
+  font-weight: 700;
+}
+
+.order-actions {
+  gap: 12rpx;
+}
+
+.action-btn {
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  border: 1rpx solid #E8E8E8;
+  font-size: 24rpx;
+  color: #636E72;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+  color: #FFFFFF;
+  border-color: transparent;
+}
+
+.action-btn:active {
+  opacity: 0.8;
+}

@@ -1,0 +1,29 @@
+<!-- 订单卡片组件 -->
+<view class="order-card">
+  <view class="order-header flex-between">
+    <text class="order-id">订单号：{{order.order_no}}</text>
+    <text class="order-status status-{{order.status}}">{{statusLabel}}</text>
+  </view>
+  
+  <view class="order-body flex-row">
+    <image class="order-image" src="{{order.preview_image || '/assets/images/default-order.png'}}" mode="aspectFill" />
+    <view class="order-info">
+      <text class="order-style">{{order.style_name || '定制服装'}}</text>
+      <text class="order-pet">为 {{order.pet_name}} 定制</text>
+      <text class="order-fabric">布料：{{order.fabric_name || '默认'}}</text>
+    </view>
+  </view>
+
+  <view class="order-footer flex-between">
+    <view class="order-price-row">
+      <text class="price-symbol">¥</text>
+      <text class="order-price">{{order.total_price}}</text>
+    </view>
+    <view class="order-actions flex-row">
+      <view class="action-btn" wx:if="{{order.status === 'paid'}}" bindtap="onCancel" data-id="{{order.id}}">取消</view>
+      <view class="action-btn primary" wx:if="{{order.status === 'paid'}}" bindtap="onPay" data-id="{{order.id}}">去支付</view>
+      <view class="action-btn" wx:if="{{order.status === 'shipping'}}" bindtap="onTrack" data-id="{{order.id}}">查物流</view>
+      <view class="action-btn primary" wx:if="{{order.status === 'delivered'}}" bindtap="onReview" data-id="{{order.id}}">评价</view>
+    </view>
+  </view>
+</view>

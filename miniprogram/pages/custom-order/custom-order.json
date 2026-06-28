@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "定制服装",
+  "renderer": "skyline",
+  "usingComponents": {
+    "option-selector": "/components/option-selector/option-selector",
+    "price-calculator": "/components/price-calculator/price-calculator"
+  }
+}

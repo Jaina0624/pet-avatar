@@ -1,0 +1,9 @@
+{
+  "name": "generate3D",
+  "version": "1.0.0",
+  "description": "宠物3D模型生成云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

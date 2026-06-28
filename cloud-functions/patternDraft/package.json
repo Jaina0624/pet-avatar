@@ -1,0 +1,9 @@
+{
+  "name": "patternDraft",
+  "version": "1.0.0",
+  "description": "宠物服装版型图纸生成云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

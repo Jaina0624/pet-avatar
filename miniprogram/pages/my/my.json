@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的",
+  "renderer": "skyline",
+  "usingComponents": {
+    "order-card": "/components/order-card/order-card"
+  }
+}

@@ -1,0 +1,112 @@
+<!-- 首页 -->
+<view class="page-container">
+  <!-- 顶部Banner -->
+  <view class="hero-section">
+    <view class="hero-bg"></view>
+    <view class="hero-content">
+      <text class="hero-title">宠物专属定制</text>
+      <text class="hero-desc">3D数字形象 + 定制服装</text>
+      <view class="hero-stats flex-row">
+        <view class="stat-item">
+          <text class="stat-num">10,000+</text>
+          <text class="stat-label">已服务宠物</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-num">98%</text>
+          <text class="stat-label">好评率</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-actions container">
+    <view class="action-card" bindtap="goToPetProfile">
+      <view class="action-icon-wrapper icon-pet">
+        <image class="action-icon" src="/assets/icons/pet.png" mode="aspectFit" />
+      </view>
+      <text class="action-title">宠物档案</text>
+      <text class="action-desc">录入爱宠信息</text>
+    </view>
+    <view class="action-card" bindtap="goToModelPreview">
+      <view class="action-icon-wrapper icon-3d">
+        <image class="action-icon" src="/assets/icons/3d.png" mode="aspectFit" />
+      </view>
+      <text class="action-title">3D形象</text>
+      <text class="action-desc">预览数字宠物</text>
+    </view>
+    <view class="action-card" bindtap="goToCustomOrder">
+      <view class="action-icon-wrapper icon-cloth">
+        <image class="action-icon" src="/assets/icons/cloth.png" mode="aspectFit" />
+      </view>
+      <text class="action-title">定制服装</text>
+      <text class="action-desc">专属宠物时装</text>
+    </view>
+    <view class="action-card" bindtap="goToPoints">
+      <view class="action-icon-wrapper icon-gift">
+        <image class="action-icon" src="/assets/icons/gift.png" mode="aspectFit" />
+      </view>
+      <text class="action-title">积分中心</text>
+      <text class="action-desc">签到赚积分</text>
+    </view>
+  </view>
+
+  <!-- 我的宠物列表 -->
+  <view class="section container" wx:if="{{pets.length > 0}}">
+    <view class="section-header flex-between">
+      <text class="section-title">我的宠物</text>
+      <text class="section-more" bindtap="goToPetProfile">添加 ></text>
+    </view>
+    <scroll-view class="pet-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="pet-scroll-inner flex-row">
+        <pet-card 
+          wx:for="{{pets}}" 
+          wx:key="id" 
+          pet="{{item}}"
+          bindtap="onPetTap"
+        />
+        <view class="add-pet-card flex-center" bindtap="goToPetProfile">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加宠物</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 推荐款式 -->
+  <view class="section container">
+    <view class="section-header flex-between">
+      <text class="section-title">热门款式</text>
+      <text class="section-more" bindtap="goToCustomOrder">更多 ></text>
+    </view>
+    <view class="style-grid">
+      <view class="style-item" wx:for="{{hotStyles}}" wx:key="id" bindtap="onStyleTap" data-id="{{item.id}}">
+        <image class="style-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="style-info">
+          <text class="style-name">{{item.name}}</text>
+          <text class="style-price">¥{{item.basePrice}}起</text>
+        </view>
+        <view class="style-tag" wx:if="{{item.tag}}">
+          <text class="tag-text">{{item.tag}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 签到提示 -->
+  <view class="checkin-banner container" wx:if="{{!todayCheckedIn}}">
+    <view class="checkin-card flex-between">
+      <view class="checkin-left flex-row">
+        <text class="checkin-icon">🎁</text>
+        <view class="checkin-info">
+          <text class="checkin-title">每日签到领积分</text>
+          <text class="checkin-desc">连续签到7天额外奖励50积分</text>
+        </view>
+      </view>
+      <view class="btn-checkin" bindtap="doCheckin">
+        <text>签到</text>
+      </view>
+    </view>
+  </view>
+</view>

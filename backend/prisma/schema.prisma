@@ -1,0 +1,125 @@
+// Prisma Schema for PetAvatar
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  openid    String   @unique
+  unionid   String?
+  nickName  String   @default("宠物主人")
+  avatarUrl String   @default("")
+  phone     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  pets              PetProfile[]
+  orders            CustomOrder[]
+  pointsAccount     PointsAccount?
+  pointsTransactions PointsTransaction[]
+  checkinRecords    CheckinRecord[]
+
+  @@map("users")
+}
+
+model PetProfile {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  name         String
+  species      String
+  breed        String
+  gender       String?
+  age          Float?
+  neckCm       Float    @map("neck_cm")
+  chestCm      Float    @map("chest_cm")
+  backLengthCm Float    @map("back_length_cm")
+  waistCm      Float?   @map("waist_cm")
+  sizeTier     String   @map("size_tier")
+  photos       String[]
+  model3dUrl   String?  @map("model_3d_url")
+  modelStatus  String   @default("pending") @map("model_status")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user   User           @relation(fields: [userId], references: [id])
+  orders CustomOrder[]
+
+  @@map("pet_profiles")
+}
+
+model CustomOrder {
+  id              String   @id @default(uuid())
+  orderNo         String   @unique @map("order_no")
+  userId          String   @map("user_id")
+  petProfileId    String   @map("pet_profile_id")
+  styleId         String   @map("style_id")
+  fabricId        String?  @map("fabric_id")
+  optionsJson     Json     @default("{}") @map("options_json")
+  patternSvgUrl   String?  @map("pattern_svg_url")
+  previewImageUrl String?  @map("preview_image_url")
+  basePrice       Float    @default(0) @map("base_price")
+  sizeSurcharge   Float    @default(0) @map("size_surcharge")
+  optionsSurcharge Float   @default(0) @map("options_surcharge")
+  totalPrice      Float    @default(0) @map("total_price")
+  status          String   @default("pending")
+  remark          String?
+  trackingNumber  String?  @map("tracking_number")
+  logisticsInfo   Json?    @map("logistics_info")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user       User       @relation(fields: [userId], references: [id])
+  petProfile PetProfile @relation(fields: [petProfileId], references: [id])
+
+  @@map("custom_orders")
+}
+
+model PointsAccount {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  balance     Int      @default(0)
+  totalEarned Int      @default(0) @map("total_earned")
+  totalSpent  Int      @default(0) @map("total_spent")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user         User                  @relation(fields: [userId], references: [id])
+  transactions PointsTransaction[]
+
+  @@map("points_accounts")
+}
+
+model PointsTransaction {
+  id          String   @id @default(uuid())
+  accountId   String   @map("account_id")
+  userId      String   @map("user_id")
+  amount      Int
+  type        String   // earn / spend
+  source      String   // checkin / online / share / purchase / exchange
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  account PointsAccount @relation(fields: [accountId], references: [id])
+  user    User          @relation(fields: [userId], references: [id])
+
+  @@map("points_transactions")
+}
+
+model CheckinRecord {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  checkinDate  String   @map("checkin_date")
+  streak       Int      @default(1)
+  pointsEarned Int      @map("points_earned")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, checkinDate])
+  @@map("checkin_records")
+}

@@ -1,0 +1,68 @@
+/* 选项选择器 */
+.option-selector {
+  margin-bottom: 24rpx;
+}
+
+.option-header {
+  margin-bottom: 12rpx;
+}
+
+.option-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #2D3436;
+}
+
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.option-item {
+  width: calc(33.33% - 8rpx);
+  background: #F8F9FA;
+  border: 2rpx solid #E8E8E8;
+  border-radius: 12rpx;
+  padding: 20rpx 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  position: relative;
+}
+
+.option-item.active {
+  border-color: #FF6B6B;
+  background: rgba(255, 107, 107, 0.03);
+}
+
+.option-name {
+  font-size: 24rpx;
+  color: #2D3436;
+  font-weight: 500;
+}
+
+.option-surcharge {
+  font-size: 20rpx;
+  color: #FF6B6B;
+}
+
+.option-surcharge.free {
+  color: #6BCB77;
+}
+
+.option-check {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background: #FF6B6B;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+}

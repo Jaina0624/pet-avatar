@@ -1,0 +1,276 @@
+/* 首页样式 */
+
+.hero-section {
+  position: relative;
+  height: 400rpx;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 50%, #FFD93D 100%);
+  border-radius: 0 0 60rpx 60rpx;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 40rpx;
+}
+
+.hero-title {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.hero-desc {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 8rpx;
+}
+
+.hero-stats {
+  margin-top: 24rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 32rpx;
+}
+
+.stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 4rpx;
+}
+
+.stat-divider {
+  width: 2rpx;
+  height: 48rpx;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 快捷入口 */
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: -40rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.action-card {
+  width: calc(25% - 12rpx);
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 107, 0.1);
+}
+
+.action-icon-wrapper {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.action-icon-wrapper.icon-pet { background: linear-gradient(135deg, #FFE0E0, #FFB3B3); }
+.action-icon-wrapper.icon-3d { background: linear-gradient(135deg, #E0F0FF, #B3D9FF); }
+.action-icon-wrapper.icon-cloth { background: linear-gradient(135deg, #E8FFE0, #C5FFB3); }
+.action-icon-wrapper.icon-gift { background: linear-gradient(135deg, #FFF0E0, #FFD9B3); }
+
+.action-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.action-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #2D3436;
+}
+
+.action-desc {
+  font-size: 20rpx;
+  color: #B2BEC3;
+  margin-top: 4rpx;
+}
+
+/* 通用section */
+.section {
+  margin-top: 32rpx;
+}
+
+.section-header {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2D3436;
+}
+
+.section-more {
+  font-size: 26rpx;
+  color: #FF6B6B;
+}
+
+/* 宠物横向滚动 */
+.pet-scroll {
+  white-space: nowrap;
+}
+
+.pet-scroll-inner {
+  display: inline-flex;
+  gap: 16rpx;
+}
+
+.add-pet-card {
+  width: 200rpx;
+  height: 240rpx;
+  border: 3rpx dashed #E8E8E8;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.add-icon {
+  font-size: 48rpx;
+  color: #B2BEC3;
+  font-weight: 300;
+}
+
+.add-text {
+  font-size: 22rpx;
+  color: #B2BEC3;
+}
+
+/* 款式网格 */
+.style-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.style-item {
+  width: calc(50% - 8rpx);
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.style-image {
+  width: 100%;
+  height: 280rpx;
+}
+
+.style-info {
+  padding: 16rpx;
+}
+
+.style-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #2D3436;
+}
+
+.style-price {
+  font-size: 28rpx;
+  color: #FF6B6B;
+  font-weight: 600;
+}
+
+.style-tag {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  background: #FF6B6B;
+  border-radius: 8rpx;
+  padding: 4rpx 12rpx;
+}
+
+.tag-text {
+  font-size: 20rpx;
+  color: #FFFFFF;
+}
+
+/* 签到横幅 */
+.checkin-banner {
+  margin-top: 32rpx;
+  margin-bottom: 40rpx;
+}
+
+.checkin-card {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.checkin-icon {
+  font-size: 56rpx;
+  margin-right: 16rpx;
+}
+
+.checkin-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkin-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #F57F17;
+}
+
+.checkin-desc {
+  font-size: 22rpx;
+  color: #F9A825;
+  margin-top: 4rpx;
+}
+
+.btn-checkin {
+  background: linear-gradient(135deg, #FFD54F, #FFB300);
+  color: #FFFFFF;
+  border-radius: 40rpx;
+  padding: 16rpx 32rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(255, 179, 0, 0.3);
+}
+
+.btn-checkin:active {
+  opacity: 0.8;
+}
