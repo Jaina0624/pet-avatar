@@ -109,9 +109,10 @@ Page({
     return map[tier] || '未知';
   },
 
-  // 初始化3D查看器
+  // 初始化3D查看器（离线模式提示安装threejs-miniprogram）
   async init3DViewer(modelUrl) {
     try {
+      // 动态加载threejs-miniprogram（需先 npm install）
       const THREE = require('../../utils/three.js');
       const { GLTFLoader } = require('../../utils/GLTFLoader.js');
       
@@ -137,9 +138,7 @@ Page({
       scene.add(this._model);
       
       const animate = () => {
-        if (this.data.animating && this._model) {
-          this._model.rotation.y += 0.005;
-        }
+        if (this.data.animating && this._model) this._model.rotation.y += 0.005;
         renderer.render(scene, camera);
         if (this._running) canvas.requestAnimationFrame(animate);
       };
@@ -154,9 +153,9 @@ Page({
       this.setData({ loading: false });
       
     } catch (err) {
-      console.error('3D初始化失败', err);
+      console.error('3D模块未安装:', err.message);
       this.setData({ loading: false });
-      wx.showToast({ title: '3D加载失败（演示模式下不可用）', icon: 'none' });
+      // 不弹toast，让页面显示空状态提示即可
     }
   },
 

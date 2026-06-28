@@ -1,7 +1,0 @@
-<view class="pet-card" bindtap="onTap" data-id="{{pet.id}}">
-  <image class="pet-photo" src="{{pet.photos ? pet.photos[0] : ''}}" mode="aspectFill" />
-  <view class="pet-info">
-    <text class="pet-name">{{pet.name}}</text>
-    <text class="pet-breed">{{pet.breed}}</text>
-  </view>
-</view>

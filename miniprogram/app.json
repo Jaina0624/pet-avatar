@@ -15,14 +15,7 @@
     "backgroundColor": "#FFF5F5",
     "backgroundTextStyle": "light"
   },
-  "renderer": "skyline",
-  "rendererOptions": {
-    "skyline": {
-      "defaultDisplayBlock": true
-    }
-  },
   "lazyCodeLoading": "requiredComponents",
-  "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
   "tabBar": {
     "color": "#999999",
