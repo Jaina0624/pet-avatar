@@ -106,6 +106,8 @@ Page({
     if (['neck', 'chest', 'backLength', 'waist'].includes(field)) {
       this.matchSizeTier();
     }
+    // 任何时候输入变化都检查表单完整性
+    this.checkFormValid();
   },
 
   // 体型档位匹配
@@ -166,6 +168,8 @@ Page({
   uploadToCloud(filePath, type) {
     this.setData({ [`photos.${type}`]: filePath });
     wx.showToast({ title: '预览模式：已选图片', icon: 'none' });
+    // 照片上传后检查表单完整性
+    this.checkFormValid();
   },
 
   // 显示测量教程
@@ -193,6 +197,10 @@ Page({
       }
     }
     this.setData({ currentStep: this.data.currentStep + 1 });
+    // 进入最后一步时检查表单完整性
+    if (this.data.currentStep === 3) {
+      this.checkFormValid();
+    }
   },
 
   prevStep() {
