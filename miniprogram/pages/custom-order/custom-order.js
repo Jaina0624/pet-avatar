@@ -51,33 +51,33 @@ Page({
     filteredFabrics: [],
     selectedFabric: null,
 
-    // 定制选项
+    // 定制选项（带图片）
     collarOptions: [
-      { id: 'round', name: '圆领', surcharge: 0, default: true },
-      { id: 'vneck', name: 'V领', surcharge: 10 },
-      { id: 'stand', name: '立领', surcharge: 15 },
-      { id: 'bow', name: '蝴蝶结领', surcharge: 20 }
+      { id: 'round', name: '圆领', image: '/assets/options/collar-round.png', surcharge: 0, default: true },
+      { id: 'vneck', name: 'V领', image: '/assets/options/collar-vneck.png', surcharge: 10 },
+      { id: 'stand', name: '立领', image: '/assets/options/collar-stand.png', surcharge: 15 },
+      { id: 'bow', name: '蝴蝶结领', image: '/assets/options/collar-bow.png', surcharge: 20 }
     ],
     laceOptions: [
-      { id: 'none', name: '无花边', surcharge: 0, default: true },
-      { id: 'lace', name: '蕾丝花边', surcharge: 15 },
-      { id: 'ruffle', name: '荷叶边', surcharge: 20 }
+      { id: 'none', name: '无花边', image: '/assets/options/lace-none.png', surcharge: 0, default: true },
+      { id: 'lace', name: '蕾丝花边', image: '/assets/options/lace-lace.png', surcharge: 15 },
+      { id: 'ruffle', name: '荷叶边', image: '/assets/options/lace-ruffle.png', surcharge: 20 }
     ],
     cuffOptions: [
-      { id: 'normal', name: '常规袖口', surcharge: 0, default: true },
-      { id: 'ribbed', name: '螺纹收口', surcharge: 10 },
-      { id: 'folded', name: '翻边袖口', surcharge: 15 }
+      { id: 'normal', name: '常规袖口', image: '/assets/options/cuff-normal.png', surcharge: 0, default: true },
+      { id: 'ribbed', name: '螺纹收口', image: '/assets/options/cuff-ribbed.png', surcharge: 10 },
+      { id: 'folded', name: '翻边袖口', image: '/assets/options/cuff-folded.png', surcharge: 15 }
     ],
     zipperOptions: [
-      { id: 'velcro', name: '魔术贴', surcharge: 0, default: true },
-      { id: 'zipper', name: '树脂拉链', surcharge: 10 },
-      { id: 'buckle', name: '金属卡扣', surcharge: 20 }
+      { id: 'velcro', name: '魔术贴', image: '/assets/options/zipper-velcro.png', surcharge: 0, default: true },
+      { id: 'zipper', name: '树脂拉链', image: '/assets/options/zipper-zipper.png', surcharge: 10 },
+      { id: 'buckle', name: '金属卡扣', image: '/assets/options/zipper-buckle.png', surcharge: 20 }
     ],
     decorationOptions: [
-      { id: 'none', name: '无装饰', surcharge: 0, default: true },
-      { id: 'embroidery', name: '刺绣名字', surcharge: 30 },
-      { id: 'sequin', name: '亮片珠饰', surcharge: 25 },
-      { id: 'reflective', name: '反光条', surcharge: 15 }
+      { id: 'none', name: '无装饰', image: '/assets/options/deco-none.png', surcharge: 0, default: true },
+      { id: 'embroidery', name: '刺绣名字', image: '/assets/options/deco-embroidery.png', surcharge: 30 },
+      { id: 'sequin', name: '亮片珠饰', image: '/assets/options/deco-sequin.png', surcharge: 25 },
+      { id: 'reflective', name: '反光条', image: '/assets/options/deco-reflective.png', surcharge: 15 }
     ],
     selectedOptions: {
       collar: 'round',

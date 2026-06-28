@@ -1,4 +1,4 @@
-<!-- 定制选项选择器组件 -->
+<!-- 定制选项选择器组件（图片+文字版） -->
 <view class="option-selector">
   <view class="option-header">
     <text class="option-title">{{title}}</text>
@@ -11,10 +11,10 @@
       bindtap="onSelect"
       data-id="{{item.id}}"
     >
+      <image class="option-image" src="{{item.image || ''}}" mode="aspectFit" />
       <text class="option-name">{{item.name}}</text>
       <text class="option-surcharge" wx:if="{{item.surcharge > 0}}">+¥{{item.surcharge}}</text>
-      <text class="option-surcharge free" wx:else>默认</text>
-      <view class="option-check" wx:if="{{selected === item.id}}">✓</view>
+      <text class="option-check" wx:if="{{selected === item.id}}">✓</text>
     </view>
   </view>
 </view>

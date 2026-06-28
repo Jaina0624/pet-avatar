@@ -197,6 +197,20 @@
   <view class="step-panel container" wx:if="{{customStep === 5}}">
     <view class="section-title mb-16">确认订单</view>
     
+    <!-- 样衣模拟预览 -->
+    <view class="sample-preview card" wx:if="{{selectedStyle && selectedFabric && selectedPet}}">
+      <text class="card-title">👗 样衣模拟图</text>
+      <view class="preview-body">
+        <image class="preview-pet" src="{{selectedPet.photos[0] || ''}}" mode="aspectFill" />
+        <image class="preview-fabric" src="{{selectedFabric.thumb}}" mode="aspectFill" />
+        <image class="preview-style" src="{{selectedStyle.image}}" mode="aspectFit" />
+        <view class="preview-info">
+          <text class="preview-style-name">{{selectedStyle.name}}</text>
+          <text class="preview-fabric-name">布料：{{selectedFabric.name}}</text>
+        </view>
+      </view>
+    </view>
+    
     <!-- 订单摘要 -->
     <view class="order-summary card">
       <view class="summary-row">

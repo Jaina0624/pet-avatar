@@ -24,12 +24,19 @@
   background: #F8F9FA;
   border: 2rpx solid #E8E8E8;
   border-radius: 12rpx;
-  padding: 20rpx 12rpx;
+  padding: 16rpx 8rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6rpx;
   position: relative;
+}
+
+.option-image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 8rpx;
+  margin-bottom: 4rpx;
 }
 
 .option-item.active {
