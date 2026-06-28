@@ -1,6 +1,15 @@
 // 3D模型预览页面
 const app = getApp();
 
+// 演示宠物数据（离线模式）
+const MOCK_PET = {
+  name: '奶糖',
+  breed: '英短',
+  photos: ['/assets/images/style-vest.png'],
+  size_tier: 'cat',
+  model_3d_url: ''
+};
+
 Page({
   data: {
     loading: true,
@@ -28,14 +37,12 @@ Page({
   },
 
   onUnload() {
-    // 清理3D资源
     if (this._renderer) {
       this._renderer.dispose();
       this._renderer = null;
     }
   },
 
-  // 检查AR支持
   checkARSupport() {
     const { SDKVersion } = wx.getSystemInfoSync();
     const supported = this.compareVersion(SDKVersion, '2.20.0') >= 0;
@@ -54,13 +61,28 @@ Page({
     return 0;
   },
 
-  // 加载最近的宠物
+  // 加载最近的宠物（API失败时用演示数据）
   loadLatestPet() {
+    // 先用演示数据展示
+    const pet = MOCK_PET;
+    this.setData({
+      petInfo: {
+        name: pet.name,
+        breed: pet.breed,
+        avatar: pet.photos[0],
+        sizeTierLabel: this.getSizeTierLabel(pet.size_tier)
+      },
+      modelUrl: '',
+      loading: false
+    });
+
+    // 尝试从后端加载
     wx.request({
       url: `${app.globalData.baseUrl}/api/pets/latest`,
       header: { Authorization: `Bearer ${app.globalData.token}` },
+      timeout: 3000,
       success: (res) => {
-        if (res.data.code === 0 && res.data.data) {
+        if (res.data && res.data.code === 0 && res.data.data) {
           const pet = res.data.data;
           this.setData({
             petInfo: {
@@ -70,19 +92,14 @@ Page({
               sizeTierLabel: this.getSizeTierLabel(pet.size_tier)
             }
           });
-          
           if (pet.model_3d_url) {
             this.setData({ modelUrl: pet.model_3d_url });
             this.init3DViewer(pet.model_3d_url);
-          } else {
-            this.setData({ loading: false });
           }
-        } else {
-          this.setData({ loading: false });
         }
       },
       fail: () => {
-        this.setData({ loading: false });
+        console.log('后端未部署，使用演示数据');
       }
     });
   },
@@ -94,8 +111,6 @@ Page({
 
   // 初始化3D查看器
   async init3DViewer(modelUrl) {
-    // 动态加载threejs-miniprogram
-    // 注意：实际项目中需要先在项目中安装 threejs-miniprogram
     try {
       const THREE = require('../../utils/three.js');
       const { GLTFLoader } = require('../../utils/GLTFLoader.js');
@@ -103,37 +118,30 @@ Page({
       const canvas = wx.createOffscreenCanvas({ type: 'webgl', width: 750, height: 750 });
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
       renderer.setSize(750, 750);
-      renderer.setPixelRatio(app.globalData.systemInfo.pixelRatio);
+      renderer.setPixelRatio(app.globalData.systemInfo?.pixelRatio || 2);
       
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
       camera.position.set(0, 0.8, 3);
       
-      // 环境光
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
       scene.add(ambientLight);
       
-      // 方向光
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
       directionalLight.position.set(1, 2, 3);
       scene.add(directionalLight);
       
-      // 加载模型
       const loader = new GLTFLoader();
       const gltf = await loader.loadAsync(modelUrl);
       this._model = gltf.scene;
       scene.add(this._model);
       
-      // 动画循环
       const animate = () => {
         if (this.data.animating && this._model) {
           this._model.rotation.y += 0.005;
         }
         renderer.render(scene, camera);
-        
-        if (this._running) {
-          canvas.requestAnimationFrame(animate);
-        }
+        if (this._running) canvas.requestAnimationFrame(animate);
       };
       
       this._renderer = { renderer, scene, camera, animate, canvas, dispose: () => {
@@ -148,7 +156,7 @@ Page({
     } catch (err) {
       console.error('3D初始化失败', err);
       this.setData({ loading: false });
-      wx.showToast({ title: '3D加载失败，请重试', icon: 'none' });
+      wx.showToast({ title: '3D加载失败（演示模式下不可用）', icon: 'none' });
     }
   },
 
@@ -169,55 +177,43 @@ Page({
     this._touchStart = null;
   },
 
-  // 重置视角
   resetView() {
-    if (this._model) {
-      this._model.rotation.set(0, 0, 0);
-    }
+    if (this._model) this._model.rotation.set(0, 0, 0);
   },
 
-  // 切换动画
   toggleAnimation() {
     this.setData({ animating: !this.data.animating });
   },
 
-  // 截图
   takeSnapshot() {
     if (this._renderer) {
-      // Canvas截图
       wx.canvasToTempFilePath({
         canvas: this._renderer.canvas,
         success: (res) => {
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
-            success: () => {
-              wx.showToast({ title: '已保存到相册', icon: 'success' });
-            }
+            success: () => wx.showToast({ title: '已保存到相册', icon: 'success' })
           });
         }
       });
+    } else {
+      wx.showToast({ title: '暂无3D模型可截图', icon: 'none' });
     }
   },
 
-  // AR模式
   toggleAR() {
     wx.showToast({ title: 'AR功能开发中', icon: 'none' });
   },
 
-  // 切换装扮
   toggleDress(e) {
     const { id } = e.currentTarget.dataset;
     const items = this.data.dressItems.map(item => {
-      if (item.id === id) {
-        return { ...item, equipped: !item.equipped };
-      }
+      if (item.id === id) return { ...item, equipped: !item.equipped };
       return item;
     });
     this.setData({ dressItems: items });
-    // TODO: 应用3D模型装扮
   },
 
-  // 下载桌宠
   downloadDesktopPet() {
     wx.showModal({
       title: '下载电子桌宠',

@@ -106,14 +106,23 @@ Page({
   },
 
   loadPets() {
+    // 演示数据
+    const mockPets = [
+      { id: 'mock-cat', name: '奶糖', species: 'cat', breed: '英短', neck_cm: 24, chest_cm: 34, back_length_cm: 30, waist_cm: 22, size_tier: 'cat', photos: ['/assets/images/style-vest.png'] },
+      { id: 'mock-dog', name: '毛毛', species: 'dog', breed: '柯基', neck_cm: 36, chest_cm: 52, back_length_cm: 38, size_tier: 'm_dog', photos: ['/assets/images/style-onesie.png'] }
+    ];
+    this.setData({ pets: mockPets });
+
     wx.request({
       url: `${app.globalData.baseUrl}/api/pets`,
       header: { Authorization: `Bearer ${app.globalData.token}` },
+      timeout: 3000,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (res.data && res.data.code === 0 && res.data.data && res.data.data.length > 0) {
           this.setData({ pets: res.data.data });
         }
-      }
+      },
+      fail: () => {}
     });
   },
 
@@ -242,7 +251,7 @@ Page({
     this.setData({ remark: e.detail.value });
   },
 
-  // 提交订单
+  // 提交订单（API失败时演示跳转）
   submitOrder() {
     if (!this.data.selectedPet || !this.data.selectedStyle) {
       wx.showToast({ title: '请完成所有选择', icon: 'none' });
@@ -265,20 +274,23 @@ Page({
       method: 'POST',
       header: { Authorization: `Bearer ${app.globalData.token}` },
       data: orderData,
+      timeout: 3000,
       success: (res) => {
         wx.hideLoading();
-        if (res.data.code === 0) {
-          // 跳转支付
-          wx.navigateTo({ 
-            url: `/pages/order-detail/order-detail?id=${res.data.data.id}&needPay=true` 
-          });
+        if (res.data && res.data.code === 0) {
+          wx.navigateTo({ url: `/pages/order-detail/order-detail?id=${res.data.data.id}&needPay=true` });
         } else {
-          wx.showToast({ title: res.data.msg || '下单失败', icon: 'none' });
+          wx.showToast({ title: res.data?.msg || '下单失败', icon: 'none' });
         }
       },
       fail: () => {
         wx.hideLoading();
-        wx.showToast({ title: '网络错误', icon: 'none' });
+        // 离线模式：演示成功
+        wx.showToast({ title: '演示模式：订单已提交 ✓', icon: 'success' });
+        wx.setStorageSync('mockOrder', orderData);
+        setTimeout(() => {
+          wx.navigateTo({ url: '/pages/order-detail/order-detail?id=mock-order&needPay=true' });
+        }, 1000);
       }
     });
   },

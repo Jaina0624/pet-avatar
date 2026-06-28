@@ -1,6 +1,37 @@
 // 首页逻辑
 const app = getApp();
 
+// 演示宠物数据（离线模式用）
+const MOCK_PETS = [
+  {
+    id: 'mock-1',
+    name: '奶糖',
+    species: 'cat',
+    breed: '英短',
+    neck_cm: 24,
+    chest_cm: 34,
+    back_length_cm: 30,
+    waist_cm: 22,
+    size_tier: 'cat',
+    photos: ['/assets/images/style-vest.png'],
+    model_3d_url: '',
+    model_status: 'pending'
+  },
+  {
+    id: 'mock-2',
+    name: '毛毛',
+    species: 'dog',
+    breed: '柯基',
+    neck_cm: 36,
+    chest_cm: 52,
+    back_length_cm: 38,
+    size_tier: 'm_dog',
+    photos: ['/assets/images/style-onesie.png'],
+    model_3d_url: '',
+    model_status: 'completed'
+  }
+];
+
 Page({
   data: {
     pets: [],
@@ -43,68 +74,69 @@ Page({
   },
 
   onShow() {
-    // 每次显示页面时刷新宠物列表
     this.loadPets();
   },
 
-  // 加载宠物列表
+  // 加载宠物列表（API失败时用Mock数据）
   async loadPets() {
-    if (!app.globalData.isLogin) {
-      try {
-        await app.wxLogin();
-      } catch (err) {
-        console.error('登录失败', err);
-        return;
-      }
-    }
-
+    // 如果后端未部署，直接用Mock数据
+    this.setData({ pets: MOCK_PETS });
+    
+    // 尝试从后端加载（失败也不影响）
     wx.request({
       url: `${app.globalData.baseUrl}/api/pets`,
       header: { Authorization: `Bearer ${app.globalData.token}` },
+      timeout: 3000,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (res.data && res.data.code === 0 && res.data.data && res.data.data.length > 0) {
           this.setData({ pets: res.data.data });
         }
+      },
+      fail: () => {
+        console.log('后端未部署，使用演示数据');
       }
     });
   },
 
   // 检查今日签到状态
   checkCheckinStatus() {
-    if (!app.globalData.token) return;
+    const checked = wx.getStorageSync('todayCheckedIn');
+    this.setData({ todayCheckedIn: !!checked });
     
     wx.request({
       url: `${app.globalData.baseUrl}/api/points/checkin-status`,
       header: { Authorization: `Bearer ${app.globalData.token}` },
+      timeout: 3000,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (res.data && res.data.code === 0) {
           this.setData({ todayCheckedIn: res.data.data.checkedIn });
         }
-      }
+      },
+      fail: () => {}
     });
   },
 
-  // 每日签到
+  // 每日签到（离线模式用本地存储）
   doCheckin() {
-    if (!app.globalData.isLogin) {
-      app.wxLogin().then(() => this.doCheckin());
-      return;
-    }
+    if (this.data.todayCheckedIn) return;
 
+    wx.showToast({ title: '签到成功 +10积分！', icon: 'success' });
+    this.setData({ todayCheckedIn: true });
+    wx.setStorageSync('todayCheckedIn', true);
+
+    // 尝试服务端签到
     wx.request({
       url: `${app.globalData.baseUrl}/api/points/checkin`,
       method: 'POST',
       header: { Authorization: `Bearer ${app.globalData.token}` },
+      timeout: 3000,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (res.data && res.data.code === 0) {
           const { points, streak } = res.data.data;
-          wx.showToast({
-            title: `签到成功 +${points}积分！连续${streak}天`,
-            icon: 'success'
-          });
-          this.setData({ todayCheckedIn: true });
+          wx.showToast({ title: `签到成功 +${points}积分！连续${streak}天`, icon: 'success' });
         }
-      }
+      },
+      fail: () => {}
     });
   },
 
@@ -133,7 +165,6 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.loadPets();
-    this.checkCheckinStatus();
     wx.stopPullDownRefresh();
   }
 });
