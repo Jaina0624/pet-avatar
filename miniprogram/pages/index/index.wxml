@@ -60,12 +60,19 @@
     </view>
     <scroll-view class="pet-scroll" scroll-x enhanced show-scrollbar="{{false}}">
       <view class="pet-scroll-inner flex-row">
-        <pet-card 
+        <view 
+          class="pet-card-item" 
           wx:for="{{pets}}" 
           wx:key="id" 
-          pet="{{item}}"
           bindtap="onPetTap"
-        />
+          data-id="{{item.id}}"
+        >
+          <image class="pet-card-photo" src="{{item.photos ? item.photos[0] : ''}}" mode="aspectFill" />
+          <view class="pet-card-info">
+            <text class="pet-card-name">{{item.name}}</text>
+            <text class="pet-card-breed">{{item.breed}}</text>
+          </view>
+        </view>
         <view class="add-pet-card flex-center" bindtap="goToPetProfile">
           <text class="add-icon">+</text>
           <text class="add-text">添加宠物</text>

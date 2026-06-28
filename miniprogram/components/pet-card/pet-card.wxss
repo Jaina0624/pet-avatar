@@ -1,0 +1,31 @@
+/* pet-card组件样式 */
+.pet-card {
+  width: 200rpx;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.pet-photo {
+  width: 200rpx;
+  height: 160rpx;
+}
+
+.pet-info {
+  padding: 12rpx;
+}
+
+.pet-name {
+  font-size: 24rpx;
+  font-weight: 600;
+  display: block;
+}
+
+.pet-breed {
+  font-size: 20rpx;
+  color: #B2BEC3;
+  display: block;
+  margin-top: 2rpx;
+}

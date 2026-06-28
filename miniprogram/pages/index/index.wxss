@@ -158,6 +158,46 @@
   border: 3rpx dashed #E8E8E8;
   border-radius: 16rpx;
   flex-shrink: 0;
+}
+
+.add-pet-card:active { opacity: 0.7; }
+
+/* 宠物卡片（替代pet-card组件） */
+.pet-card-item {
+  width: 200rpx;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.pet-card-photo {
+  width: 200rpx;
+  height: 160rpx;
+}
+
+.pet-card-info {
+  padding: 12rpx;
+}
+
+.pet-card-name {
+  font-size: 24rpx;
+  font-weight: 600;
+  display: block;
+}
+
+.pet-card-breed {
+  font-size: 20rpx;
+  color: #B2BEC3;
+  display: block;
+  margin-top: 2rpx;
+}
+  width: 200rpx;
+  height: 240rpx;
+  border: 3rpx dashed #E8E8E8;
+  border-radius: 16rpx;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
