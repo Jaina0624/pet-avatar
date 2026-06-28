@@ -44,7 +44,7 @@ Page({
   },
 
   checkARSupport() {
-    const { SDKVersion } = wx.getSystemInfoSync();
+    const { SDKVersion } = wx.getAppBaseInfo();
     const supported = this.compareVersion(SDKVersion, '2.20.0') >= 0;
     this.setData({ arSupported: supported });
   },
@@ -73,26 +73,6 @@ Page({
       },
       modelUrl: '',
       loading: false
-    });
-  },
-          const pet = res.data.data;
-          this.setData({
-            petInfo: {
-              name: pet.name,
-              breed: pet.breed,
-              avatar: pet.photos?.[0] || '',
-              sizeTierLabel: this.getSizeTierLabel(pet.size_tier)
-            }
-          });
-          if (pet.model_3d_url) {
-            this.setData({ modelUrl: pet.model_3d_url });
-            this.init3DViewer(pet.model_3d_url);
-          }
-        }
-      },
-      fail: () => {
-        console.log('后端未部署，使用演示数据');
-      }
     });
   },
 
