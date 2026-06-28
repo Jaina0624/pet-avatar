@@ -231,7 +231,10 @@ Page({
   },
 
   onTotalChange(e) {
-    this.setData({ totalPrice: e.detail.total });
+    // 使用 wx.nextTick 避免与组件 observer 形成循环更新
+    wx.nextTick(() => {
+      this.setData({ totalPrice: e.detail.total });
+    });
   },
 
   onRemarkInput(e) {
